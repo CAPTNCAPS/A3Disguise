@@ -1,13 +1,15 @@
 class CfgSounds
 {
 	// List of sounds (.ogg files without the .ogg extension)
-	sounds[] = {whistle};
+	sounds[] = { whistle };
 
 	// Definition for each sound
 	class whistle
 	{
 		name = "whistle"; // Name for mission editor
-		sound[] = {\Sounds\whistle.ogg, db+12, 1.0};
+
+		//file, vol, pitch [, dist]
+		sound[] = {"\Sounds\whistle.ogg", db+12, 1.0, 50};
 		titles[] = {0, ""};
 	};
 };

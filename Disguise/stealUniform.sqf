@@ -1,31 +1,47 @@
 /*
-*	Author: CAPTNCAPS
+*	Author: DasCapschen
 */
 
+//setup vars
 _enemy = _this select 0;
-_caller = _this select 1;
 _uniform = uniform _enemy;
-_group = group _enemy;
-_caller switchMove "";
-_caller switchMove "Acts_TreatingWounded_In";	
+_olduniform = uniform player;
+_side = side _enemy;
+
+//remove "disguise" action!
+_enemy removeAction (_this select 2);
+
+player addAction ["Change back", {removeUniform player; player forceAddUniform _olduniform; player removeAction _this select 2;}];
+
+player playMove "Acts_TreatingWounded_In";
+player playMove "acts_CrouchingWatchingRifle02";
+removeUniform player;
+player playMove "AinvPknlMstpSnonWnonDr_medic5";
+removeUniform _enemy;
+player playMove "acts_CrouchingWatchingRifle02";
+player forceAddUniform _uniform;
+player playMove "Acts_TreatingWounded_Out";
+
+/*play animations and change uniforms
+player switchMove "";
+player switchMove "Acts_TreatingWounded_In"; //doesn't work
 sleep 3;
-_caller switchMove "";
-_caller switchMove "acts_CrouchingWatchingRifle02";	
+player switchMove "";
+player switchMove "acts_CrouchingWatchingRifle02";	
 sleep 4;
-removeUniform _caller;
-_caller switchMove "";
-_caller playMove "AinvPknlMstpSnonWnonDr_medic5";	
+removeUniform player;
+player switchMove "";
+player playMove "AinvPknlMstpSnonWnonDr_medic5";	
 sleep 12;
 removeUniform _enemy;
 sleep 1;
-_caller switchMove "";
-_caller switchMove "acts_CrouchingWatchingRifle02";	
+player switchMove "";
+player switchMove "acts_CrouchingWatchingRifle02";	
 sleep 4;
-_caller forceAddUniform _uniform;
-_caller switchMove "Acts_TreatingWounded_Out";
+player forceAddUniform _uniform;
+player switchMove "Acts_TreatingWounded_Out";
 sleep 2;
-[_caller] joinSilent grpNull;
-[_caller] joinSilent _group;
-_caller addEventHandler ["Take", {0 = [(_this select 0)] execVM "Disguise\CheckGear.sqf";}];
-0 = [_caller] execVM "Disguise\CheckGear.sqf";
+*/
 
+//change group (switch sides)
+[player] joinSilent createGroup _side;
