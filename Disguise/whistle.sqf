@@ -5,10 +5,11 @@
 player say "whistle";
 
 //because nearestObjects is sorted, nearEntities is not!
-_enemies = nearestObjects[player, "Man", 50];
-if( count _enemies > 1 ) then //entry 1 is player
+//nearestObjects[player, "Man", 50];
+_enemies = (nearestObjects[player, ["Man"], 50]) - [player];
+if( count _enemies > 0 ) then
 {
-    _enemy = _enemies select 1;
+    _enemy = _enemies select 0;
     _posE = position _enemy;
     _posP = position player;
     _enemy doMove _posP;
