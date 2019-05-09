@@ -70,7 +70,7 @@ class CfgVehicles
                 displayName = "Whistle";
                 tooltip = "Should synced units be allowed to whistle to attract enemy AI to their position?";
                 typeName = "BOOL";
-                defaultValue = "true"
+                defaultValue = "true";
             };
             
             class ThrowStone : Checkbox
@@ -79,7 +79,7 @@ class CfgVehicles
                 displayName = "Throw Stones";
                 tooltip = "Should synced units be allowed to throw stones to attract enemy AI to the position of the impact?";
                 typeName = "BOOL";
-                defaultValue = "true"
+                defaultValue = "true";
             };
             
             class Authorization : Checkbox
@@ -88,7 +88,7 @@ class CfgVehicles
                 displayName = "Authorization";
                 tooltip = "Enable this if you use the authorizedArea module.";
                 typeName = "BOOL";
-                defaultValue = "true"
+                defaultValue = "true";
             };
             
             class RankRestrictions : Checkbox
@@ -97,7 +97,7 @@ class CfgVehicles
                 displayName = "Restrictions";
                 tooltip = "Enable this if you use the restrictedArea module.";
                 typeName = "BOOL";
-                defaultValue = "true"
+                defaultValue = "true";
             };
             
             class CheckGear : Combo
@@ -129,7 +129,7 @@ class CfgVehicles
     }; //end ModuleDisguise
 
     class CAPS_ModuleRestrictedArea : CAPS_ModuleBase
-	{
+    {
         scope = 2;
         dispalyName = "Restricted Area";
         icon = "";
@@ -168,7 +168,7 @@ class CfgVehicles
     };
 
     class CAPS_ModuleAuthorizedArea : CAPS_ModuleBase
-	{
+    {
         scope = 2;
         displayName = "Authorized Area";
         icon = "";
@@ -184,6 +184,29 @@ class CfgVehicles
             {
                 property = "CAPS_ModuleAuthorizedArea_Units";
             };
+		
+	    class Document : EditShort
+	    {
+	        property = "CAPS_ModuleAuthorized_Document";
+		displayName = "Document Number";
+		tooltip = "";
+		typeName = "NUMBER";
+		defaultValue = "1";
+		validate = "number";
+		unique = 0;
+	    };
+		
+	    class AreaNumber : EditShort
+	    {
+	        property = "CAPS_ModuleAuthorized_AreaNumber";
+		displayName = "Area Number";
+		tooltip = "";
+		typeName = "NUMBER";
+		defaultValue = "1";
+		unique = 1;
+		validate = "number";
+	    };
+		
             class ModuleDescription : ModuleDescription {};
         };
         
