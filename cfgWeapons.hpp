@@ -3,6 +3,7 @@ class CfgWeapons
 	class ItemCore;
 	class InventoryItem_Base_F;
 
+    //TODO: need to override Take action somehow, research!
 	class CAPS_Passport_Base : ItemCore
 	{
 		author = "DasCapschen";
