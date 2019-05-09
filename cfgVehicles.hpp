@@ -55,51 +55,62 @@ class CfgVehicles
                 property = "CAPS_ModuleDisguise_Units";
             };
 
-            class StealUniform : Checkbox
+            class StealUniform
             {
                 property = "CAPS_ModuleDisguise_StealUniform";
                 displayName = "Steal Uniform";
                 tooltip = "Should synced units be allowed to steal ANY other units uniforms?";
+                
+                control = "Checkbox";
                 typeName = "BOOL";
                 defaultValue = "true";
             };
             
-            class Whistle : Checkbox
+            class Whistle
             {
                 property = "CAPS_ModuleDisguise_Whistle";
                 displayName = "Whistle";
                 tooltip = "Should synced units be allowed to whistle to attract enemy AI to their position?";
+                
+                control = "Checkbox";
                 typeName = "BOOL";
                 defaultValue = "true";
             };
             
-            class ThrowStone : Checkbox
+            class ThrowStone
             {
                 property = "CAPS_ModuleDisguise_Throw";
                 displayName = "Throw Stones";
                 tooltip = "Should synced units be allowed to throw stones to attract enemy AI to the position of the impact?";
+                
+                control = "Checkbox";
                 typeName = "BOOL";
                 defaultValue = "true";
             };
             
-            class Authorization : Checkbox
+            class Authorization
             {
                 property = "CAPS_ModuleDisguise_Auth";
                 displayName = "Authorization";
                 tooltip = "Enable this if you use the authorizedArea module.";
+                
+                control = "Checkbox";
                 typeName = "BOOL";
                 defaultValue = "true";
             };
             
-            class RankRestrictions : Checkbox
+            class RankRestrictions
             {
                 property = "CAPS_ModuleDisguise_Rank";
                 displayName = "Restrictions";
                 tooltip = "Enable this if you use the restrictedArea module.";
+                
+                control = "Checkbox";
                 typeName = "BOOL";
                 defaultValue = "true";
             };
             
+            //in this case, inheriting is necessary, since Combo needs to be filled with values!
             class CheckGear : Combo
             {
                 property = "CAPS_ModuleDisguise_CheckGear";
@@ -147,11 +158,13 @@ class CfgVehicles
             };
             
             //I hope rank works here ; exists in Cfg3den ; but not on wiki
-            class Rank : Rank
+            class Rank
             {
                 property = "CAPS_ModuleRestricted_Rank";
                 displayName = "Rank";
                 tooltip = "Which rank is required to be in this area?";
+                
+                control = "Rank";
                 typeName = "STRING";
                 defaultValue = """private"""; //expression
             };
@@ -185,27 +198,30 @@ class CfgVehicles
                 property = "CAPS_ModuleAuthorizedArea_Units";
             };
 		
-	    class Document : EditShort
-	    {
-	        property = "CAPS_ModuleAuthorized_Document";
-		displayName = "Document Number";
-		tooltip = "";
-		typeName = "NUMBER";
-		defaultValue = "1";
-		validate = "number";
-		unique = 0;
-	    };
+            class DocumentNumber
+            {
+                property = "CAPS_ModuleAuthorized_DocumentNumber";
+                displayName = "Document Number";
+                tooltip = "Which document is required to authorize the player for this area?";
+                
+                control = "EditShort";
+                typeName = "NUMBER";
+                defaultValue = "1";
+                validate = "number";
+            };
 		
-	    class AreaNumber : EditShort
-	    {
-	        property = "CAPS_ModuleAuthorized_AreaNumber";
-		displayName = "Area Number";
-		tooltip = "";
-		typeName = "NUMBER";
-		defaultValue = "1";
-		unique = 1;
-		validate = "number";
-	    };
+            class AreaNumber
+            {
+                property = "CAPS_ModuleAuthorized_AreaNumber";
+                displayName = "Area Number";
+                tooltip = "The area number for this area. Must be unique. Used for internal scripting. If multiple triggers are synced to this module, then they all define 1 Area.";
+                
+                control = "EditShort";
+                typeName = "NUMBER";
+                defaultValue = "1";
+                unique = 1;
+                validate = "number";
+            };
 		
             class ModuleDescription : ModuleDescription {};
         };
