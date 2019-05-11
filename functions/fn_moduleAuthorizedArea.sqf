@@ -4,17 +4,21 @@
 
 params["_logic", "_units", "_activated"];
 
-_areaNo = _logic getVariable "areaNumber";     //unique!
-_document = _logic getVariable "authDocument"; //not unique
+//attributes saved in logic under their classname
+_areaNo = _logic getVariable "AreaNumber";     //unique!
+_document = _logic getVariable "DocumentNumber"; //not unique
 
-{
-    if( _x isKindOf "Man" ) then
+_units = synchronizedObjects _logic; //originally passed _units DOESN'T CONTAIN TRIGGERS
+
+{        
+    if( _x isKindOf "Man" ) then //synced AI
     {
         _x addAction [
             "Show Pass",
             { 
+                _caller = _this select 1;
                 _doc = "authDocument" + str(_this select 3 select 0);
-                if ( _caller getVariable _doc ) then 
+                if ( !isNil{_caller getVariable _doc} && {_caller getVariable _doc} ) then 
                 {
                     _area = "authFor" + str(_this select 3 select 1);
                     _caller setVariable [ _area, true ];
@@ -27,13 +31,24 @@ _document = _logic getVariable "authDocument"; //not unique
             [_document, _areaNo], 1, false, true, "", "_this getVariable ""auth""", 3
         ];
     }
-    else
+    else //synced Triggers
     {
+        _x setVariable ["areaNumber", _areaNo];
         _x setTriggerActivation ["ANYPLAYER", "PRESENT", true];
-        _x setTriggerStatements [
-            "this",
-            "{ _x setVariable ["inAuthorizedArea", true]; }forEach thisList;",
-            "{ _x setVariable ["inAuthorizedArea", false]; }forEach thisList;"
-        ];
-    }
+        
+        [
+            _x,
+            { 
+                _num = "authFor"+str(_trigger getVariable "areaNumber");
+                if (isNil{_x getVariable _num} || {!(_x getVariable _num)}) then 
+                {
+                    _x setVariable ["illegalInArea", true];
+                };
+            },
+            {
+                _x setVariable["illegalInArea", false];
+            },
+            false
+        ] call CAPS_fnc_triggerListChanged;
+    };
 } forEach _units;

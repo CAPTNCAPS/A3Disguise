@@ -1,6 +1,88 @@
 //actual modules. 1 class per module.
 class CfgVehicles
 {
+    class Items_base_F;
+    
+    //should act like "intel" files, etc
+    class CAPS_Passport_Base : Items_base_F
+    {
+        author = "DasCapschen";
+        model = "\CAPS_Disguise\models\passport.p3d";
+        scope = 0;
+        picture = "\CAPS_Disguise\images\passport.paa";
+        editorCategory = "EdCat_Things";
+        editorSubcategory = "EdSubcat_Intel";
+        hiddenSelections[] = { "texture" };
+        vehicleClass = "Intel";
+        faction = "Interactive_F"; //dunno if important, might be
+        vehicleCategory = "Interactive_F";
+        
+        class EventHandlers
+        {
+            init = "this call CAPS_fnc_initPassportObject;";
+        };
+        
+        class Attributes //3DEN Editor Attributes
+        {
+            class authDocument
+            {
+                property = "CAPS_Passport_authDocument";
+                
+                displayName = "Document Number";
+                tooltip = "Allows access to all ""authorizedAreas"" with the same document number.";
+                
+                control = "EditShort"; //what input field to show in Eden
+                
+                //what "script" to run to save this attribute to the object
+                expression = "_this setVariable ['%s', _value];";
+                defaultValue = "0";
+                
+                unique = 0; //more than one object can have the same value
+                validate = "number"; //input has to be a number
+                //condition = "1"; //optional
+                typeName = "NUMBER"; //save this value as a number!
+            };
+        };
+    };
+    
+    class CAPS_Passport_East : CAPS_Passport_Base
+    {
+        displayName = "Passport (East)";
+        scope = 2;
+        scopeCurator = 2;
+        hiddenSelectionsTextures[] = { "\CAPS_Disguise\textures\passport_east.paa" };
+        
+        /*
+        class TransportItems
+        {
+            class CAPS_Passport_East
+            {
+                name = "CAPS_Passport_East";
+                count = 1;
+            };
+        };
+        */
+    };
+    
+    class CAPS_Passport_West : CAPS_Passport_Base
+    {
+        displayName = "Passport (West)";
+        scope = 2;
+        scopeCurator = 2;
+        hiddenSelectionsTextures[] = { "\CAPS_Disguise\textures\passport_west.paa" };
+        
+        /*
+        class TransportItems
+        {
+            class CAPS_Passport_West
+            {
+                name = "CAPS_Passport_West";
+                count = 1;
+            };
+        };
+        */
+    };
+    
     //base classes
     class Logic;
     class Module_F : Logic
@@ -24,26 +106,27 @@ class CfgVehicles
     class CAPS_ModuleBase : Module_F
     {
         scope = 0;
-        category = "Stealth";
+        author = "DasCapschen";
+        category = "CAPS_Stealth";
         is3DEN = 0; //run init function inside Eden?
+        
+        scopeCurator = 0; //don't show in Zeus
+        curatorInfoType = ""; //menu to show when placed down by Zeus
         
         isGlobal = 1; //0 server, 1 global, 2 persistent global
         isTriggerActivated = 0; //wait for all synced triggers to active
-        isDisposable = 1; //disable after activating once
+        isDisposable = 0; //disable after activating once
     };
 
     class CAPS_ModuleDisguise : CAPS_ModuleBase
     {
         scope = 2; //show in editor
         displayName = "Disguise";
-        icon = "";
+        //icon = "";
 
         //function triggered
         function = "CAPS_fnc_moduleDisguise";
         functionPriority = 1; //lower is higher
-
-        //menu to show when placed down by Zeus
-        curatorInfoType = "";
 
         //3den Editor Attributes!
         class Attributes : AttributesBase
@@ -61,6 +144,8 @@ class CfgVehicles
                 displayName = "Steal Uniform";
                 tooltip = "Should synced units be allowed to steal ANY other units uniforms?";
                 
+                expression = "_this setVariable ['%s', _value];";
+                
                 control = "Checkbox";
                 typeName = "BOOL";
                 defaultValue = "true";
@@ -71,6 +156,8 @@ class CfgVehicles
                 property = "CAPS_ModuleDisguise_Whistle";
                 displayName = "Whistle";
                 tooltip = "Should synced units be allowed to whistle to attract enemy AI to their position?";
+                
+                expression = "_this setVariable ['%s', _value];";
                 
                 control = "Checkbox";
                 typeName = "BOOL";
@@ -83,6 +170,8 @@ class CfgVehicles
                 displayName = "Throw Stones";
                 tooltip = "Should synced units be allowed to throw stones to attract enemy AI to the position of the impact?";
                 
+                expression = "_this setVariable ['%s', _value];";
+                
                 control = "Checkbox";
                 typeName = "BOOL";
                 defaultValue = "true";
@@ -94,6 +183,8 @@ class CfgVehicles
                 displayName = "Authorization";
                 tooltip = "Enable this if you use the authorizedArea module.";
                 
+                expression = "_this setVariable ['%s', _value];";
+                
                 control = "Checkbox";
                 typeName = "BOOL";
                 defaultValue = "true";
@@ -104,6 +195,8 @@ class CfgVehicles
                 property = "CAPS_ModuleDisguise_Rank";
                 displayName = "Restrictions";
                 tooltip = "Enable this if you use the restrictedArea module.";
+                
+                expression = "_this setVariable ['%s', _value];";
                 
                 control = "Checkbox";
                 typeName = "BOOL";
@@ -118,6 +211,7 @@ class CfgVehicles
                 tooltip = "Should AI become suspicious if player is using wrong gear?";
                 typeName = "NUMBER";
                 defaultValue = "3";
+                expression = "_this setVariable ['%s', _value];";
                 class Values 
                 {
                     class None { name = "None"; value = 0; };
@@ -126,29 +220,68 @@ class CfgVehicles
                     class Both { name = "Weapons and Clothes"; value = 3; };
                 };
             };
-
+            
+            class BLUEWeapons {
+                displayName = "Allowed Weapons BLUFOR";
+                property = "CAPS_ModuleDisguise_BlueWeapons";
+                control = "EditArray";
+                expression = "_this setVariable ['%s', _value];";
+            };
+            class BLUEClothing {
+                displayName = "Allowed Clothing BLUFOR";
+                property = "CAPS_ModuleDisguise_BlueClothes";
+                control = "EditArray";
+                expression = "_this setVariable ['%s', _value];";
+            };
+            
+            class REDWeapons {
+                displayName = "Allowed Weapons OPFOR";
+                property = "CAPS_ModuleDisguise_RedWeapons";
+                control = "EditArray";
+                expression = "_this setVariable ['%s', _value];";
+            };
+            class REDClothing {
+                displayName = "Allowed Clothing OPFOR";
+                property = "CAPS_ModuleDisguise_RedClothes";
+                control = "EditArray";
+                expression = "_this setVariable ['%s', _value];";
+            };
+            
+            class GREENWeapons {
+                displayName = "Allowed Weapons Independent";
+                property = "CAPS_ModuleDisguise_GreenWeapons";
+                control = "EditArray";
+                expression = "_this setVariable ['%s', _value];";
+            };
+            class GREENClothing {
+                displayName = "Allowed Clothing Independent";
+                property = "CAPS_ModuleDisguise_GreenClothes";
+                control = "EditArray";
+                expression = "_this setVariable ['%s', _value];";
+            };
+            
             //should be last
             class ModuleDescription : ModuleDescription {};
         };
 
         class ModuleDescription : ModuleDescription
         {
-            description = "Short Description";
-            sync[] = {}; //synced entities
-
+            description[] = {
+                "Enables disguise system, allowing players to change uniform to that of a dead enemy and switch sides and go undercover."
+            };
+            //synced entities
+            sync[] = { "AnyPlayer" };
         };
     }; //end ModuleDisguise
-
+    
     class CAPS_ModuleRestrictedArea : CAPS_ModuleBase
     {
         scope = 2;
-        dispalyName = "Restricted Area";
-        icon = "";
+        displayName = "Restricted Area";
+        //icon = "";
         
         function = "CAPS_fnc_moduleRestrictedArea";
         functionPriority = 1;
-        
-        curatorInfoType = "";
         
         class Attributes : AttributesBase
         {
@@ -164,6 +297,8 @@ class CfgVehicles
                 displayName = "Rank";
                 tooltip = "Which rank is required to be in this area?";
                 
+                expression = "_this setVariable ['%s', _value];";
+                
                 control = "Rank";
                 typeName = "STRING";
                 defaultValue = """private"""; //expression
@@ -174,8 +309,12 @@ class CfgVehicles
         
         class ModuleDescription : ModuleDescription
         {
-            description = "Short Description";
-            sync[] = {}; //synced entities
+            description[] = {
+                "Creates a restricted zone which requires the player to have at least the specified rank (or higher).",
+                "Players who have a lower rank will slowly gain suspiciousness while in the area.",
+                "If synced to multiple triggers, they create a single area!"
+            };
+            sync[] = {"EmptyDetector"}; //synced entities
             
         };
     };
@@ -184,12 +323,10 @@ class CfgVehicles
     {
         scope = 2;
         displayName = "Authorized Area";
-        icon = "";
+        //icon = "";
         
         function = "CAPS_fnc_moduleAuthorizedArea";
         functionPriority = 1; 
-        
-        curatorInfoType = "";
         
         class Attributes : AttributesBase
         {
@@ -202,11 +339,13 @@ class CfgVehicles
             {
                 property = "CAPS_ModuleAuthorized_DocumentNumber";
                 displayName = "Document Number";
-                tooltip = "Which document is required to authorize the player for this area?";
+                tooltip = "Which document is required to authorize the player for this area? Use Numbers > 0";
+                
+                expression = "_this setVariable ['%s', _value];";
                 
                 control = "EditShort";
                 typeName = "NUMBER";
-                defaultValue = "1";
+                defaultValue = "0";
                 validate = "number";
             };
 		
@@ -216,9 +355,11 @@ class CfgVehicles
                 displayName = "Area Number";
                 tooltip = "The area number for this area. Must be unique. Used for internal scripting. If multiple triggers are synced to this module, then they all define 1 Area.";
                 
+                expression = "_this setVariable ['%s', _value];";
+                
                 control = "EditShort";
                 typeName = "NUMBER";
-                defaultValue = "1";
+                defaultValue = "0";
                 unique = 1;
                 validate = "number";
             };
@@ -228,9 +369,13 @@ class CfgVehicles
         
         class ModuleDescription : ModuleDescription
         {
-            description = "Short Description";
-            sync[] = {}; //synced entities
-            
+            description[] = {
+                "Creates an area the player must authorize for before entering.",
+                "Synced triggers create the area (multiple triggers still count as 1 area!)",
+                "Synced AIs are guards the player must show a pass with the correct document number to in order to get authorized.",
+                "Unauthorized players will quickly gain suspiciousness."
+            };
+            sync[] = { "EmptyDetector", "AnyAI" }; //synced entities
         };
     };
 
