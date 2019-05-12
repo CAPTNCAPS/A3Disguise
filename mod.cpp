@@ -1,11 +1,11 @@
 name = "Disguise";
-picture = "\CAPS_Disguise\images\mod_picture.paa";
-logoSmall = "\CAPS_Disguise\images\mod_logo_small.paa";
-logo = "\CAPS_Disguise\images\mod_logo.paa";
-logoOver = "\CAPS_Disguise\images\mod_logo_over.paa";
+//picture = "\CAPS_Disguise\images\mod_picture.paa";
+logoSmall = "\CAPS_Disguise\images\logo2.paa";
+logo = "\CAPS_Disguise\images\logo2.paa";
+logoOver = "\CAPS_Disguise\images\logo2.paa";
 action = "https://github.com/CAPTNCAPS/A3Disguise/tree/addon";
-tooltipOwned = "";
+tooltipOwned = "Disguise Mod by DasCapschen";
 dlcColor[] = { 0.12, 0.8, 0.35, 1.0 };
-overview = "";
+overview = "Diguise as your enemies and subvert their operations from within.";
 hideName = 0;
 hidePicture = 0;

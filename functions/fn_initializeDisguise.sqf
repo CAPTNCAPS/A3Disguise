@@ -63,7 +63,8 @@ _units = _this select 0;
             }, 
             nil, 1 ,false, true, "", "true", 3
         ];
-
+        
+        /*
 		if( !isNil{(_this select 0) getVariable "authDocument"} ) then 
 		{
 			(_this select 0) addAction ["Take Pass", 
@@ -75,6 +76,6 @@ _units = _this select 0;
 				nil, 1, false, true, "", "true", 3
             ];
 		};
-
+        */
 	}];
 } forEach (allUnits);
