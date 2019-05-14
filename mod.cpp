@@ -1,4 +1,5 @@
 name = "Disguise";
+author = "DasCapschen";
 //picture = "\CAPS_Disguise\images\mod_picture.paa";
 logoSmall = "\CAPS_Disguise\images\logo2.paa";
 logo = "\CAPS_Disguise\images\logo2.paa";

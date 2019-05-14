@@ -39,14 +39,17 @@ _units = synchronizedObjects _logic; //originally passed _units DOESN'T CONTAIN 
         [
             _x,
             { 
+                _x setVariable["inAuthorizedArea", true];
+                
                 _num = "authFor"+str(_trigger getVariable "areaNumber");
-                if (isNil{_x getVariable _num} || {!(_x getVariable _num)}) then 
+                if ( isNil{_x getVariable _num} || {!(_x getVariable _num)}) then 
                 {
-                    _x setVariable ["illegalInArea", true];
+                    _x setVariable ["illegalAuthorized", true];
                 };
             },
             {
-                _x setVariable["illegalInArea", false];
+                _x setVariable["inAuthorizedArea", false];
+                _x setVariable["illegalAuthorized", false];
             },
             false
         ] call CAPS_fnc_triggerListChanged;

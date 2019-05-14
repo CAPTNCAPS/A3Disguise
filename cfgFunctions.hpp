@@ -9,6 +9,7 @@ class CfgFunctions
             class moduleDisguise{};
             class moduleRestrictedArea{};
             class moduleAuthorizedArea{};
+            class moduleGivePass{};
             
             //actions
             class doThrow{};

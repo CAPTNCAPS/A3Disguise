@@ -38,3 +38,6 @@ class CfgSounds
 
 //Passport Object
 //#include "cfgWeapons.hpp"
+
+//GUI
+#include "RscTitles.hpp"

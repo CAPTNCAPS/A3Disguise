@@ -34,7 +34,8 @@ while {true} do
 
     if( count _enemies > 0 ) then 
     {
-		hint "warning, enemies nearby!";
+		//hint "warning, enemies nearby!";
+		_unit setVariable ["seen", true];
         
         //if currently stealing uniform / killing / ...
 		if( (_unit getVariable "actingIllegal") ) then 
@@ -44,7 +45,7 @@ while {true} do
 		};
 		
         //if in restricted area
-		if( (_unit getVariable "inRestrictedArea") ) then 
+		if( _unit getVariable "enableRestricted" && {(_unit getVariable "inRestrictedArea")} ) then 
 		{
 			//find out the needed and _unit rank (stored as strings, unfortunately)
 			_playerRank = 0;
@@ -63,22 +64,27 @@ while {true} do
 			
 			if( _playerRank < _neededRank ) then 
 			{
-				hint "Rank too low!"; 
+				//hint "Rank too low!"; 
+				_unit setVariable ["illegalRestricted", true];
 				_unit setVariable ["suspiciousness", (_unit getVariable "suspiciousness") + 5 ];
+			}
+			else
+			{
+				_unit setVariable ["illegalRestricted", false];
 			};
 		};
         
         //in in authorized area without authorization
-        if( _unit getVariable "illegalInArea" ) then
+        if( _unit getVariable "enableAuth" && {_unit getVariable "inAuthorizedArea"} && {_unit getVariable "illegalAuthorized"} ) then
         {
-            hint "You're not authorized to be here!"; 
-            _unit setVariable ["suspiciousness", (_unit getVariable "suspiciousness") + 15 ];
+			//hint "You're not authorized to be here!"; 
+			_unit setVariable ["suspiciousness", (_unit getVariable "suspiciousness") + 15 ];
         };
 		
         //if wearing wrong gear
 		if (_wrongGear > 0) then
         {
-			hint "getting suspicious"; 
+			//hint "getting suspicious"; 
             _unit setVariable ["suspiciousness", (_unit getVariable "suspiciousness") + _wrongGear ];
         }
         else 
@@ -95,7 +101,11 @@ while {true} do
             hint "Cover Blown!"; 
             _unit addRating -5000;
         };
-    };
+    }
+	else
+	{
+		_unit setVariable ["seen", false];
+	};
 	
 	sleep 1;
 };

@@ -60,13 +60,14 @@ if ( _steal ) then
     if ( _auth ) then
     {
         //enable checking if synced units enter authorized areas
-        _x setVariable ["auth", true];
+        _x setVariable ["enableAuth", true];
         _x setVariable ["illegalInArea", false];
     };
     
     if( _restricted ) then
     {
         //enable checking if synced units enter restricted areas
+        _x setVariable["enableRestricted", true];
         _x setVariable["areaRank", "private"];
         _x setVariable["inRestrictedArea", false];
     };
@@ -75,6 +76,9 @@ if ( _steal ) then
     [_x, _gear, _gearWeapons, _gearClothing] spawn CAPS_fnc_startGearCheck;
     
     //start the main loop
-    0 = [_x] spawn CAPS_fnc_startEnemyCheck;
+    [_x] spawn CAPS_fnc_startEnemyCheck;
+
+    //start the UI
+    [_x] spawn CAPS_fnc_disguiseUI;
     
 } forEach _units;

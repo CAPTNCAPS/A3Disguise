@@ -7,19 +7,19 @@ class CfgVehicles
     class CAPS_Passport_Base : Items_base_F
     {
         author = "DasCapschen";
-        model = "\CAPS_Disguise\models\passport.p3d";
         scope = 0;
-        picture = "\CAPS_Disguise\images\passport.paa";
+        //picture = "\CAPS_Disguise\images\passport.paa";
         editorCategory = "EdCat_Things";
         editorSubcategory = "EdSubcat_Intel";
-        hiddenSelections[] = { "texture" };
-        vehicleClass = "Intel";
-        faction = "Interactive_F"; //dunno if important, might be
-        vehicleCategory = "Interactive_F";
+
+        //as in Land_File1_F
+        faction = "Default";
+        simulation = "thingX";
+        vehicleClass = "Small_items";
         
         class EventHandlers
         {
-            init = "this call CAPS_fnc_initPassportObject;";
+            init = "_this call CAPS_fnc_initPassportObject;";
         };
         
         class Attributes //3DEN Editor Attributes
@@ -50,7 +50,7 @@ class CfgVehicles
         displayName = "Passport (East)";
         scope = 2;
         scopeCurator = 2;
-        hiddenSelectionsTextures[] = { "\CAPS_Disguise\textures\passport_east.paa" };
+        model = "\CAPS_Disguise\models\passport_east.p3d";
         
         /*
         class TransportItems
@@ -69,7 +69,7 @@ class CfgVehicles
         displayName = "Passport (West)";
         scope = 2;
         scopeCurator = 2;
-        hiddenSelectionsTextures[] = { "\CAPS_Disguise\textures\passport_west.paa" };
+        model = "\CAPS_Disguise\models\passport_west.p3d";
         
         /*
         class TransportItems
@@ -116,6 +116,51 @@ class CfgVehicles
         isGlobal = 1; //0 server, 1 global, 2 persistent global
         isTriggerActivated = 0; //wait for all synced triggers to active
         isDisposable = 0; //disable after activating once
+    };
+
+    class CAPS_ModuleGivePass : CAPS_ModuleBase
+    {
+        scope = 2;
+        displayName = "Give Document";
+
+        function = "CAPS_fnc_giveDocument";
+        functionPriority = 1;
+
+        class Attributes : AttributesBase
+        {
+            //arguments shared by specific modules
+            class Units : Units
+            {
+                //sync playable units here!
+                property = "CAPS_ModuleDisguise_Units";
+            };
+
+            class DocumentNumber
+            {
+                property = "CAPS_ModuleGivePass_DocumentNumber";
+                displayName = "Document Number";
+                tooltip = "Which document? Use Numbers > 0";
+                
+                expression = "_this setVariable ['%s', _value];";
+                
+                control = "EditShort";
+                typeName = "NUMBER";
+                defaultValue = "0";
+                validate = "number";
+            };
+
+            class ModuleDescription : ModuleDescription {};
+        };
+
+        class ModuleDescription : ModuleDescription
+        {
+            description[] = {
+                "Gives all synced units the document with document number given in attributes.",
+                "Adds an action for players to pick up the document."
+            };
+            //synced entities
+            sync[] = { "AnyBrain" };
+        };
     };
 
     class CAPS_ModuleDisguise : CAPS_ModuleBase

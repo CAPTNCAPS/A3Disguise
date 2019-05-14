@@ -43,7 +43,8 @@ _units = _this select 0;
 		}, 
 		nil, 1, false, true, "" ,
 		"(_target != _this) && !(isNil{ _this getVariable 'disguised' })", 
-		3];
+		3
+    ];
 	
 	_x setVariable ["silentkill_id", _silentkill];
 	
@@ -64,7 +65,7 @@ _units = _this select 0;
             nil, 1 ,false, true, "", "true", 3
         ];
         
-        /*
+        
 		if( !isNil{(_this select 0) getVariable "authDocument"} ) then 
 		{
 			(_this select 0) addAction ["Take Pass", 
@@ -76,6 +77,5 @@ _units = _this select 0;
 				nil, 1, false, true, "", "true", 3
             ];
 		};
-        */
 	}];
 } forEach (allUnits);
