@@ -123,7 +123,7 @@ class CfgVehicles
         scope = 2;
         displayName = "Give Document";
 
-        function = "CAPS_fnc_giveDocument";
+        function = "CAPS_fnc_moduleGivePass";
         functionPriority = 1;
 
         class Attributes : AttributesBase
@@ -132,7 +132,7 @@ class CfgVehicles
             class Units : Units
             {
                 //sync playable units here!
-                property = "CAPS_ModuleDisguise_Units";
+                property = "CAPS_ModuleGivePass_Units";
             };
 
             class DocumentNumber

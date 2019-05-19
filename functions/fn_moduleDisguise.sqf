@@ -79,6 +79,7 @@ if ( _steal ) then
     [_x] spawn CAPS_fnc_startEnemyCheck;
 
     //start the UI
-    [_x] spawn CAPS_fnc_disguiseUI;
+    "disguiseUILayer" cutRsc["CAPS_DisguiseUI", "PLAIN"];
+    //[_x] spawn CAPS_fnc_disguiseUI;
     
 } forEach _units;

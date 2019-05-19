@@ -1,95 +1,15 @@
 /* BASE CLASSES */
 /* exported from GUI editor */
 
-class RscPicture
-{
-	deletable = 0;
-	fade = 0;
-	access = 0;
-	type = 0;
-	idc = -1;
-	style = 48;
-	colorBackground[] = 
-	{
-		0,
-		0,
-		0,
-		0
-	};
-	colorText[] = 
-	{
-		1,
-		1,
-		1,
-		1
-	};
-	font = "TahomaB";
-	sizeEx = 0;
-	lineSpacing = 0;
-	text = "";
-	fixedWidth = 0;
-	shadow = 0;
-	x = 0;
-	y = 0;
-	w = 0.2;
-	h = 0.15;
-	tooltipColorText[] = 
-	{
-		1,
-		1,
-		1,
-		1
-	};
-	tooltipColorBox[] = 
-	{
-		1,
-		1,
-		1,
-		1
-	};
-	tooltipColorShade[] = 
-	{
-		0,
-		0,
-		0,
-		0.65
-	};
-};
-
-class IGUIBack
-{
-	type = 0;
-	idc = 124;
-	style = 128;
-	text = "";
-	colorText[] = 
-	{
-		0,
-		0,
-		0,
-		0
-	};
-	font = "RobotoCondensed";
-	sizeEx = 0;
-	shadow = 0;
-	x = 0.1;
-	y = 0.1;
-	w = 0.1;
-	h = 0.1;
-	colorbackground[] = 
-	{
-		"(profilenamespace getvariable ['IGUI_BCG_RGB_R',0])",
-		"(profilenamespace getvariable ['IGUI_BCG_RGB_G',1])",
-		"(profilenamespace getvariable ['IGUI_BCG_RGB_B',1])",
-		"(profilenamespace getvariable ['IGUI_BCG_RGB_A',0.8])"
-	};
-};
+class RscPicture;
+//class IGUIBack;
 
 class RscTitles
 {
 	class CAPS_DisguiseUI
 	{
 		idd = 1337;
+        onLoad = "_this spawn CAPS_fnc_disguiseUI;";
 		duration = 999999; //as used by ACE mod
 		class controls
 		{
@@ -97,6 +17,7 @@ class RscTitles
 			// GUI EDITOR OUTPUT START (by DasCapschen, v1.063, #Codowu)
 			////////////////////////////////////////////////////////
 
+			/*
 			class IGUIBack_2200: IGUIBack
 			{
 				idc = 2200;
@@ -105,6 +26,7 @@ class RscTitles
 				w = 0.04125 * safezoneW;
 				h = 0.19 * safezoneH;
 			};
+			*/
 			class RscPicture_1200: RscPicture
 			{
 				idc = 1200;

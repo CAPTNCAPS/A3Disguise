@@ -23,6 +23,7 @@ class CfgFunctions
             //main loops
             class startEnemyCheck{};
             class startGearCheck{};
+            class disguiseUI{};
             
             //main helpers
             class checkWeapons{};
