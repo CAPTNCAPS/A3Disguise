@@ -1,6 +1,6 @@
-/*
-*	Author: DasCapschen
-*/
+/* AUTHOR: DasCapschen
+ * logic for "Silent Kill" action
+ */
 
 
 _enemy = _this select 0;

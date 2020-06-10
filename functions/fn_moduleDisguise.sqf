@@ -1,5 +1,5 @@
 /* AUTHOR: DasCapschen
- * 
+ * Main module, initialises everything.
  */
 
 params["_logic", "_units", "_activated"];

@@ -1,5 +1,5 @@
 /* AUTHOR: DasCapschen
- * 
+ * makes synced triggers a Rank-Restricted area.
  */
 
 params["_logic", "_units", "_activated"];

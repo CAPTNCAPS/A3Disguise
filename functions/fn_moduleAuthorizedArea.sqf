@@ -1,5 +1,6 @@
 /* AUTHOR: DasCapschen
- * 
+ * Adds "Show Pass" action to all synced units.
+ * Makes synced triggers an authorized area. (if in without showing pass, suspicion will go up)
  */
 
 params["_logic", "_units", "_activated"];

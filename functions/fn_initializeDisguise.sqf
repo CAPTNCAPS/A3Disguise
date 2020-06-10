@@ -1,6 +1,8 @@
-/*
-*	Author: DasCapschen
-*/
+/* AUTHOR: DasCapschen
+ * Adds "Silent Kill", "Disguise", "Take pass" and "Hide Body" to ALL units.
+ * Adds "Change Back" to synced units.
+ * Makes AI DUMB!! (disable FSM, force SAFE, spotting skill = 0)
+ */
 
 _units = _this select 0;
 
@@ -32,33 +34,33 @@ _units = _this select 0;
 
 //for EVERY unit
 {
-	_x setBehaviour "SAFE";
-	_x disableAI "FSM";
-	_x setSkill ["spotDistance", 0];
-	_x setSkill ["spotTime", 0];
-	
-	_silentkill = _x addAction ["<t color='#ff4444'>Silentkill</t>", 
+    _x setBehaviour "SAFE";
+    _x disableAI "FSM";
+    _x setSkill ["spotDistance", 0];
+    _x setSkill ["spotTime", 0];
+    
+    _silentkill = _x addAction ["<t color='#ff4444'>Silentkill</t>", 
         {
             [(_this select 0), (_this select 1)] spawn CAPS_fnc_silentkill;
-		}, 
-		nil, 1, false, true, "" ,
-		"(_target != _this) && !(isNil{ _this getVariable 'disguised' })", 
-		3
+        }, 
+        nil, 1, false, true, "" ,
+        "(_target != _this) && !(isNil{ _this getVariable 'disguised' })", 
+        3
     ];
-	
-	_x setVariable ["silentkill_id", _silentkill];
-	
-	_x addEventHandler["Killed", {
-		(_this select 0) removeAction ((_this select 0) getVariable "silentkill_id");
-	
-		(_this select 0) addAction ["<t color='#ffff44'>Disguise</t>", 
+    
+    _x setVariable ["silentkill_id", _silentkill];
+    
+    _x addEventHandler["Killed", {
+        (_this select 0) removeAction ((_this select 0) getVariable "silentkill_id");
+    
+        (_this select 0) addAction ["<t color='#ffff44'>Disguise</t>", 
             {
                 [(_this select 0),(_this select 1),(_this select 2)] spawn CAPS_fnc_stealUniform
             }, 
             nil, 1, false, true, "", "true", 3
         ];
-		
-		(_this select 0) addAction ["<t color='#ffff44'>HideBody</t>", 
+        
+        (_this select 0) addAction ["<t color='#ffff44'>HideBody</t>", 
             {
                 hideBody (_this select 0)
             }, 
@@ -66,16 +68,16 @@ _units = _this select 0;
         ];
         
         
-		if( !isNil{(_this select 0) getVariable "authDocument"} ) then 
-		{
-			(_this select 0) addAction ["Take Pass", 
+        if( !isNil{(_this select 0) getVariable "authDocument"} ) then 
+        {
+            (_this select 0) addAction ["Take Pass", 
                 { 
                     _doc = "authDocument" + str( (_this select 0) getVariable "authDocument" );
                     (_this select 1) setVariable [ _doc, true ];
                     (_this select 0) removeAction (_this select 2);
-				}, 
-				nil, 1, false, true, "", "true", 3
+                }, 
+                nil, 1, false, true, "", "true", 3
             ];
-		};
-	}];
+        };
+    }];
 } forEach (allUnits);

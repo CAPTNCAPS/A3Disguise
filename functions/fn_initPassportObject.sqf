@@ -1,7 +1,7 @@
-/*
-    Author: DasCapschen
-    like BIS_fnc_initIntelObject, but different
-*/
+/* AUTHOR: DasCapschen
+ * Adds "Take" action to a passport.
+ * When taken adds it as an "auth" document to the caller.
+ */
 
 //get param 1, default value "init", expect string
 _mode = _this param [1, "init", [""]];

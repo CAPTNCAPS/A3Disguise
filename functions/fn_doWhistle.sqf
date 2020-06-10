@@ -1,6 +1,6 @@
-/*
-*	Author: DasCapschen
-*/
+/* AUTHOR: DasCapschen
+ * Simulates whistling to distract someone.
+ */
 
 _unit = _this select 0;
 
@@ -19,4 +19,3 @@ if( count _enemies > 0 ) then
     sleep 5;
     _enemy setSpeedMode "NORMAL";
 }
- 

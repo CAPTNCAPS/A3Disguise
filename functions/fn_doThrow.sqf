@@ -1,6 +1,6 @@
-/*
-*	Author: DasCapschen
-*/
+/* AUTHOR: DasCapschen
+ * Simulates throwing a small object to distract someone.
+ */
 
 _unit = _this select 0;
 
@@ -18,4 +18,3 @@ if ( count _enemies > 0 ) then
 {
     (_enemies select 0) doMove _pos;
 }
- 

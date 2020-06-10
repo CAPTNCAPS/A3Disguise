@@ -1,6 +1,6 @@
-/*
-*	Author: DasCapschen
-*/
+/* AUTHOR: DasCapschen
+ * logic for stealing a uniform.
+ */
 
 //setup vars
 _enemy = _this select 0;
