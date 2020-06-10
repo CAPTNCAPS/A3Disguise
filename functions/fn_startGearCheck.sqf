@@ -1,5 +1,5 @@
 /* AUTHOR: DasCapschen
- * 
+ * Main Loop for checking clothes and weapons of a unit
  */
  
 
@@ -11,7 +11,7 @@ _unit = _this select 0;
 _weapons = _this select 2;
 _clothes = _this select 3;
 
-while { true } do
+while { alive _unit } do
 {
     _unit setVariable ["wrongGearCount", 0];
 

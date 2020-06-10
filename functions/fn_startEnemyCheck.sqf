@@ -1,90 +1,90 @@
-/*
-*	Author: DasCapschen
-*/
+/* AUTHOR: DasCapschen
+ * main loop for AI checking for unit. get suspicious etc.
+ */
 
 _unit = _this select 0;
 
 _rankList = [ "PRIVATE", "CORPORAL", "SERGEANT", "LIEUTENANT", "CAPTAIN", "MAJOR", "COLONEL" ];
 _unitFOV = 150;
 
-while {true} do
+while { alive _unit } do
 {
-	_wrongGear = (_unit getVariable "wrongGearCount");
+    _wrongGear = (_unit getVariable "wrongGearCount");
     
-	//idea: run this array check less often than the rest?
-	
+    //idea: run this array check less often than the rest?
+    
     //find enemies near _unit, but not _unit
     _temp = (_unit nearEntities ["Man", 50]) - [_unit];
     _enemies = [];
-	{ 
-		//finds all enemies of same side, who look at _unit and have sightline
-		//apparently lineIntersects does not catch all terrain objects, so have to use both.
-		// a && b => checks both
-		// a && {b} => lazy evaluation!
-		if( (side _x) == (side _unit)
-			&& {[position _x, direction _x, _unitFOV, position _unit] call BIS_fnc_inAngleSector}
-			//&& {! lineIntersects[eyePos _x, aimPos _unit, _x, _unit]}
-			//&& {! terrainIntersectASL[eyePos _x, aimPos _unit]} ) then 
-			&& {[objNull, "VIEW"] checkVisibility [eyepos _x, aimPos _unit] > 0.8} ) then
-		{ 		
-			_enemies pushBack _x; 
-		}; 
-	} forEach _temp;
+    { 
+        //finds all enemies of same side, who look at _unit and have sightline
+        //apparently lineIntersects does not catch all terrain objects, so have to use both.
+        // a && b => checks both
+        // a && {b} => lazy evaluation!
+        if( (side _x) == (side _unit)
+            && {[position _x, direction _x, _unitFOV, position _unit] call BIS_fnc_inAngleSector}
+            //&& {! lineIntersects[eyePos _x, aimPos _unit, _x, _unit]}
+            //&& {! terrainIntersectASL[eyePos _x, aimPos _unit]} ) then 
+            && {[objNull, "VIEW"] checkVisibility [eyepos _x, aimPos _unit] > 0.8} ) then
+        { 		
+            _enemies pushBack _x; 
+        }; 
+    } forEach _temp;
     
 
     if( count _enemies > 0 ) then 
     {
-		//hint "warning, enemies nearby!";
-		_unit setVariable ["seen", true];
+        //hint "warning, enemies nearby!";
+        _unit setVariable ["seen", true];
         
         //if currently stealing uniform / killing / ...
-		if( (_unit getVariable "actingIllegal") ) then 
-		{
-			hint "Cover Blown!";
-			_unit addRating -5000;
-		};
-		
+        if( (_unit getVariable "actingIllegal") ) then 
+        {
+            hint "Cover Blown!";
+            _unit addRating -5000;
+        };
+        
         //if in restricted area
-		if( _unit getVariable "enableRestricted" && {(_unit getVariable "inRestrictedArea")} ) then 
-		{
-			//find out the needed and _unit rank (stored as strings, unfortunately)
-			_playerRank = 0;
-			_neededRank = 0;
-			for "_i" from 0 to (count _rankList)-1 do 
-			{
-				if( (rank _unit) == (_rankList select _i) ) then 
-				{
-					_playerRank = _i;
-				};
-				if( (_unit getVariable "areaRank") == (_rankList select _i) ) then 
-				{
-					_neededRank = _i;
-				};
-			};
-			
-			if( _playerRank < _neededRank ) then 
-			{
-				//hint "Rank too low!"; 
-				_unit setVariable ["illegalRestricted", true];
-				_unit setVariable ["suspiciousness", (_unit getVariable "suspiciousness") + 5 ];
-			}
-			else
-			{
-				_unit setVariable ["illegalRestricted", false];
-			};
-		};
+        if( _unit getVariable "enableRestricted" && {(_unit getVariable "inRestrictedArea")} ) then 
+        {
+            //find out the needed and _unit rank (stored as strings, unfortunately)
+            _playerRank = 0;
+            _neededRank = 0;
+            for "_i" from 0 to (count _rankList)-1 do 
+            {
+                if( (rank _unit) == (_rankList select _i) ) then 
+                {
+                    _playerRank = _i;
+                };
+                if( (_unit getVariable "areaRank") == (_rankList select _i) ) then 
+                {
+                    _neededRank = _i;
+                };
+            };
+            
+            if( _playerRank < _neededRank ) then 
+            {
+                //hint "Rank too low!"; 
+                _unit setVariable ["illegalRestricted", true];
+                _unit setVariable ["suspiciousness", (_unit getVariable "suspiciousness") + 5 ];
+            }
+            else
+            {
+                _unit setVariable ["illegalRestricted", false];
+            };
+        };
         
         //in in authorized area without authorization
         if( _unit getVariable "enableAuth" && {_unit getVariable "inAuthorizedArea"} && {_unit getVariable "illegalAuthorized"} ) then
         {
-			//hint "You're not authorized to be here!"; 
-			_unit setVariable ["suspiciousness", (_unit getVariable "suspiciousness") + 15 ];
+            //hint "You're not authorized to be here!"; 
+            _unit setVariable ["suspiciousness", (_unit getVariable "suspiciousness") + 15 ];
         };
-		
+        
         //if wearing wrong gear
-		if (_wrongGear > 0) then
+        if (_wrongGear > 0) then
         {
-			//hint "getting suspicious"; 
+            //hint "getting suspicious"; 
             _unit setVariable ["suspiciousness", (_unit getVariable "suspiciousness") + _wrongGear ];
         }
         else 
@@ -102,10 +102,10 @@ while {true} do
             _unit addRating -5000;
         };
     }
-	else
-	{
-		_unit setVariable ["seen", false];
-	};
-	
-	sleep 1;
+    else
+    {
+        _unit setVariable ["seen", false];
+    };
+    
+    sleep 1;
 };
